@@ -526,8 +526,7 @@ with tab_harian:
 
     st.divider()
 
-    batas_progress = 10
-
+    batas_progress = 8
       
 
     chart_data = (
@@ -540,7 +539,7 @@ with tab_harian:
         )
     )
 
-    batas_progress = 10
+    batas_progress = 8
 
     petugas_stagnan = (
         data_harian[
@@ -649,7 +648,7 @@ with tab_harian:
     )
 
     col2.metric(
-        "PPL < 10",
+        "PPL < 8",
         len(petugas_rendah)
     )
 
@@ -692,7 +691,7 @@ with tab_harian:
     else:
 
         st.success(
-            "🎉 Semua petugas memiliki progress minimal 10."
+            "🎉 Semua petugas memiliki progress minimal 8."
         )
 
     st.subheader("Tabel Progress Harian")

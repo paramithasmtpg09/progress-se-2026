@@ -1,0 +1,10 @@
+1. pindahkan kolom hari ini ke kemarin (sheet harian)
+2. pindahkan kolom kemarin ke 2 hari lalu (sheet harian)
+3. buka fasih, inspect
+4. application > cookies > token
+5. copy token ke js
+6. copy js di console (inspect)
+7. hasil csv import ke excel
+8. copy value dari sheet import ke data
+9. commit 
+10. push di GitHub desktop
