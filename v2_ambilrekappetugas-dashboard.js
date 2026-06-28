@@ -21,36 +21,61 @@ async function fetchAllAndExport() {
   let totalPages = 1;
 
   while (page < totalPages) {
-    console.log(`Fetching page ${page + 1} of ${totalPages}...`);
 
-    const res = await fetch(url, {
-      method: "POST",
-      headers: {
-        "Accept": "*/*",
-        "Content-Type": "application/json",
-        "X-XSRF-TOKEN": "e9b8106f-5538-41b1-b683-465860e49d81"
-      },
-      body: JSON.stringify({ ...baseBody, page })
-    });
+      console.log(`Fetching page ${page + 1} of ${totalPages}...`);
 
-    if (!res.ok) {
-      console.error(`❌ Page ${page} error ${res.status}:`, await res.text());
-      break;
-    }
+      let retry = 0;
+      let res;
 
-    const json = await res.json();
-    const content = json?.data?.content ?? [];
-    allUsers = allUsers.concat(content);
+      while (retry < 5) {
 
-    if (page === 0) {
-      const total = json?.data?.totalElements ?? 92;
-      totalPages = Math.ceil(total / baseBody.size);
-      console.log(`Total petugas: ${total}, Total pages: ${totalPages}`);
-    }
+          res = await fetch(url, {
+              method: "POST",
+              headers: {
+                  "Accept": "*/*",
+                  "Content-Type": "application/json",
+                  "X-XSRF-TOKEN": "13e5d846-831a-44ab-86ec-383e0da949d4"
+              },
+              body: JSON.stringify({ ...baseBody, page })
+          });
 
-    page++;
-    await new Promise(r => setTimeout(r, 300));
+          if (res.ok) {
+              break;
+          }
+
+          console.warn(
+              `Page ${page + 1} gagal (${res.status}), retry ${retry + 1}/5`
+          );
+
+          retry++;
+
+          await new Promise(r => setTimeout(r, 3000));
+      }
+
+      if (!res.ok) {
+          console.error(`❌ Page ${page + 1} gagal setelah 5 percobaan.`);
+          break;
+      }
+
+      const json = await res.json();
+      const content = json?.data?.content ?? [];
+
+      allUsers = allUsers.concat(content);
+
+      if (page === 0) {
+          const total = json?.data?.totalElements ?? 92;
+          totalPages = Math.ceil(total / baseBody.size);
+
+          console.log(
+              `Total petugas: ${total}, Total pages: ${totalPages}`
+          );
+      }
+
+      page++;
+
+      await new Promise(r => setTimeout(r, 1000));
   }
+
 
   console.log(`✅ Total petugas fetched: ${allUsers.length}`);
 
