@@ -34,7 +34,7 @@ async function fetchAllAndExport() {
               headers: {
                   "Accept": "*/*",
                   "Content-Type": "application/json",
-                  "X-XSRF-TOKEN": "13e5d846-831a-44ab-86ec-383e0da949d4"
+                  "X-XSRF-TOKEN": "a71d3961-2d68-4988-acd0-bae58ccdc995"
               },
               body: JSON.stringify({ ...baseBody, page })
           });
